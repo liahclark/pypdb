@@ -112,7 +112,7 @@ def make_query(search_term, querytype='AdvancedKeywordQuery'):
     ['3LEZ', '3SGH', '4F47']
 
     '''
-    assert querytype in {'HoldingsQuery', 'ExpTypeQuery',
+    assert querytype in {'UpAccessionIdQuery','HoldingsQuery', 'ExpTypeQuery',
                          'AdvancedKeywordQuery','StructureIdQuery',
                          'ModifiedStructuresQuery', 'AdvancedAuthorQuery', 'MotifQuery',
                          'NoLigandQuery', 'PubmedIdQuery'
@@ -151,6 +151,12 @@ def make_query(search_term, querytype='AdvancedKeywordQuery'):
         query_params['description'] = 'Pubmed Id Search for Pubmed Id '+ search_term
         query_params['pubMedIdList'] = search_term
 
+    # Search for PDB entries based on Uniprot Accession IDs (search term is comma separated string)
+    # eg "P01009,Q9UGI5"
+    elif querytype=='UpAccessionIdQuery':
+        query_params['queryType'] = 'org.pdb.query.simple.UpAccessionIdQuery'
+        query_params['description'] = 'Simple query for a list of Uniprot Accession IDs: '+ search_term
+        query_params['accessionIdList'] = search_term
 
     scan_params = dict()
     scan_params['orgPdbQuery'] = query_params
